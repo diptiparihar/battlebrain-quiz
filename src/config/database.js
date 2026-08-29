@@ -29,6 +29,7 @@ async function all(text, params = []) {
 
 async function run(text, params = []) {
   const result = await query(text, params);
+
   return {
     rowCount: result.rowCount,
     rows: result.rows,
@@ -38,19 +39,38 @@ async function run(text, params = []) {
 
 async function transaction(work) {
   const client = await pool.connect();
+
   try {
     await client.query("BEGIN");
+
     const tx = {
       query: (text, params = []) => client.query(text, params),
-      get: async (text, params = []) => (await client.query(text, params)).rows[0] || null,
-      all: async (text, params = []) => (await client.query(text, params)).rows,
+
+      get: async (text, params = []) => {
+        const result = await client.query(text, params);
+        return result.rows[0] || null;
+      },
+
+      all: async (text, params = []) => {
+        const result = await client.query(text, params);
+        return result.rows;
+      },
+
       run: async (text, params = []) => {
         const result = await client.query(text, params);
-        return { rowCount: result.rowCount, rows: result.rows, insertId: result.rows[0]?.id ?? null };
+
+        return {
+          rowCount: result.rowCount,
+          rows: result.rows,
+          insertId: result.rows[0]?.id ?? null,
+        };
       },
     };
+
     const result = await work(tx);
+
     await client.query("COMMIT");
+
     return result;
   } catch (error) {
     await client.query("ROLLBACK");
@@ -61,6 +81,12 @@ async function transaction(work) {
 }
 
 async function migrate() {
+  /*
+   * ---------------------------------------------------------
+   * 1. CREATE TABLES
+   * ---------------------------------------------------------
+   */
+
   await query(`
     CREATE TABLE IF NOT EXISTS users (
       id BIGSERIAL PRIMARY KEY,
@@ -114,7 +140,8 @@ async function migrate() {
       id BIGSERIAL PRIMARY KEY,
       attempt_id BIGINT NOT NULL REFERENCES quiz_attempts(id) ON DELETE CASCADE,
       question_id BIGINT NOT NULL REFERENCES questions(id) ON DELETE RESTRICT,
-      selected_answer VARCHAR(8) NOT NULL CHECK (selected_answer IN ('A','B','C','D','TIMEOUT')),
+      selected_answer VARCHAR(8) NOT NULL
+        CHECK (selected_answer IN ('A','B','C','D','TIMEOUT')),
       correct BOOLEAN NOT NULL DEFAULT FALSE,
       points INTEGER NOT NULL DEFAULT 0 CHECK (points >= 0),
       xp INTEGER NOT NULL DEFAULT 0 CHECK (xp >= 0),
@@ -127,33 +154,78 @@ async function migrate() {
       sess JSON NOT NULL,
       expire TIMESTAMPTZ
     );
+  `);
 
+  /*
+   * ---------------------------------------------------------
+   * 2. SAFE COMPATIBILITY UPGRADES
+   * ---------------------------------------------------------
+   *
+   * IMPORTANT:
+   * These run BEFORE the indexes so old databases also work.
+   */
+
+  await query(`
+    ALTER TABLE questions
+      ADD COLUMN IF NOT EXISTS external_id TEXT;
+
+    ALTER TABLE questions
+      ADD COLUMN IF NOT EXISTS source TEXT NOT NULL DEFAULT 'local';
+
+    ALTER TABLE questions
+      ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ
+      NOT NULL DEFAULT NOW();
+
+    ALTER TABLE questions
+      ADD COLUMN IF NOT EXISTS random_key DOUBLE PRECISION
+      NOT NULL DEFAULT RANDOM();
+  `);
+
+  /*
+   * ---------------------------------------------------------
+   * 3. INDEXES
+   * ---------------------------------------------------------
+   *
+   * random_key now definitely exists before this index is made.
+   */
+
+  await query(`
     CREATE INDEX IF NOT EXISTS idx_questions_category_difficulty_random
       ON questions(category, difficulty, random_key, id);
+
     CREATE INDEX IF NOT EXISTS idx_questions_source
       ON questions(source);
+
     CREATE INDEX IF NOT EXISTS idx_attempts_user_started
       ON quiz_attempts(user_id, started_at DESC);
+
     CREATE INDEX IF NOT EXISTS idx_attempt_questions_attempt
       ON attempt_questions(attempt_id, position);
+
     CREATE INDEX IF NOT EXISTS idx_answers_attempt
       ON quiz_answers(attempt_id);
+
     CREATE INDEX IF NOT EXISTS idx_leaderboard
       ON users(score DESC, xp DESC, id ASC);
+
     CREATE INDEX IF NOT EXISTS idx_sessions_expire
       ON sessions(expire);
   `);
 
-  // Safe compatibility upgrades for the early v2 PostgreSQL schema, if present.
-  await query(`ALTER TABLE questions ADD COLUMN IF NOT EXISTS external_id TEXT`);
-  await query(`ALTER TABLE questions ADD COLUMN IF NOT EXISTS source TEXT NOT NULL DEFAULT 'local'`);
-  await query(`ALTER TABLE questions ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()`);
-  await query(`ALTER TABLE questions ADD COLUMN IF NOT EXISTS random_key DOUBLE PRECISION NOT NULL DEFAULT RANDOM()`);
-  await query(`CREATE INDEX IF NOT EXISTS idx_questions_category_difficulty_random ON questions(category, difficulty, random_key, id)`);
+  console.log("[database] migration completed successfully");
 }
 
 async function close() {
   await pool.end();
 }
 
-module.exports = { pool, query, get, all, run, transaction, migrate, close };
+module.exports = {
+  pool,
+  query,
+  get,
+  all,
+  run,
+  transaction,
+  migrate,
+  close,
+};
