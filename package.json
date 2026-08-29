@@ -1,0 +1,36 @@
+{
+  "name": "battlebrain-quiz",
+  "version": "3.0.0",
+  "private": false,
+  "description": "Production-ready, server-authoritative quiz platform with PostgreSQL and automatic question ingestion.",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepare": "husky"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "connect-pg-simple": "^10.0.0",
+    "dotenv": "^17.2.1",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.0.1",
+    "helmet": "^8.1.0",
+    "pg": "^8.16.3",
+    "express-session": "^1.18.2"
+  },
+  "devDependencies": {
+    "eslint": "^9.33.0",
+    "husky": "^9.1.7",
+    "prettier": "^3.6.2",
+    "globals": "^16.3.0"
+  }
+}

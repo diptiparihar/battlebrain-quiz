@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="<%= csrfToken %>">
+  <link rel="stylesheet" href="/css/style.css">
+  <title>BattleBrain | Authentication</title>
+</head>
+<body class="auth-page">
+  <main class="container">
+    <header class="hero">
+      <h1 class="logo">BATTLE<span>BRAIN</span></h1>
+      <p class="tagline">Secure quiz combat. Real progression. Server-authoritative scoring.</p>
+    </header>
+    <section class="auth-grid" aria-label="Authentication">
+      <form class="card" action="/login" method="post">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <h2>Returning Fighter</h2>
+        <label>Codename<input name="username" autocomplete="username" minlength="3" maxlength="24" pattern="[A-Za-z0-9_]+" required></label>
+        <label>Access Code<input type="password" name="password" autocomplete="current-password" minlength="8" maxlength="128" required></label>
+        <button class="btn-primary" type="submit">Enter Battle</button>
+      </form>
+      <form class="card card-green" action="/signup" method="post">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <h2>New Recruit</h2>
+        <label>Choose Codename<input name="username" autocomplete="username" minlength="3" maxlength="24" pattern="[A-Za-z0-9_]+" required></label>
+        <label>Set Access Code<input type="password" name="password" autocomplete="new-password" minlength="8" maxlength="128" required></label>
+        <button class="btn-green" type="submit">Create Account</button>
+      </form>
+    </section>
+  </main>
+</body>
+</html>

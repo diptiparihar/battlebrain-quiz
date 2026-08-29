@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="<%= csrfToken %>">
+  <link rel="stylesheet" href="/css/style.css">
+  <title>BattleBrain | Dashboard</title>
+</head>
+<body>
+  <main class="container">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">BATTLEBRAIN</p>
+        <h1>Command Center</h1>
+      </div>
+      <form action="/logout" method="post"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="btn-secondary" type="submit">Logout</button></form>
+    </header>
+
+    <section class="stats-grid">
+      <article class="card"><span>Fighter</span><strong><%= user.username %></strong></article>
+      <article class="card"><span>Rank</span><strong><%= rank %></strong></article>
+      <article class="card"><span>Score</span><strong><%= user.score %></strong></article>
+      <article class="card"><span>XP</span><strong><%= user.xp %></strong></article>
+      <article class="card"><span>Accuracy</span><strong><%= stats.accuracy %>%</strong></article>
+    </section>
+
+    <section class="card">
+      <div class="section-heading"><div><p class="eyebrow">ARENA</p><h2>Choose a Battle Zone</h2></div></div>
+      <div class="zone-grid">
+        <% [["WebDev","Web Development"],["Science","Science"],["Logic","Logic"]].forEach(([key,label]) => { %>
+          <button class="zone" type="button" data-category="<%= key %>"><strong><%= label %></strong><span>15 questions · server scored</span></button>
+        <% }); %>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="section-heading"><h2>Global Leaderboard</h2></div>
+      <ol class="leaderboard">
+        <% leaders.forEach((player, i) => { %>
+          <li><span>#<%= i + 1 %> <%= player.username %></span><strong><%= player.score %> pts</strong></li>
+        <% }); %>
+      </ol>
+    </section>
+  </main>
+  <script src="/js/dashboard.js" defer></script>
+</body>
+</html>

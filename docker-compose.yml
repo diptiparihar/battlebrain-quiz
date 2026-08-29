@@ -1,0 +1,39 @@
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: battlebrain
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - battlebrain_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d battlebrain"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  app:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch(\"http://127.0.0.1:3000/health\").then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      SESSION_SECRET: change-this-to-a-long-random-secret
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/battlebrain
+      QUESTION_REFRESH_ENABLED: "true"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  battlebrain_pgdata:

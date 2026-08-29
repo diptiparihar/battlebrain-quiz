@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="<%= csrfToken %>">
+  <link rel="stylesheet" href="/css/style.css">
+  <title>BattleBrain | Arena</title>
+</head>
+<body>
+  <main class="container game">
+    <div class="topbar">
+      <div><p class="eyebrow">BATTLE ARENA</p><h1 id="category-title">Loading…</h1></div>
+      <div class="timer" id="timer" aria-live="polite">15</div>
+    </div>
+    <div class="progress"><div id="progress-bar"></div></div>
+    <section class="card question-card">
+      <p class="muted" id="question-count"></p>
+      <h2 id="q-text">Preparing your battle…</h2>
+      <div id="options-grid" class="options" role="group"></div>
+      <p id="status" class="status" aria-live="polite"></p>
+    </section>
+    <a class="back-link" href="/dashboard">← Return to base</a>
+  </main>
+  <script src="/js/game.js" defer></script>
+</body>
+</html>
