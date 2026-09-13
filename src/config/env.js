@@ -12,7 +12,9 @@ if (!SESSION_SECRET || SESSION_SECRET.length < 32) {
 
 const DATABASE_URL = process.env.DATABASE_URL;
 if (!DATABASE_URL) {
-  throw new Error("DATABASE_URL is required. Use a PostgreSQL connection string.");
+  throw new Error(
+    "DATABASE_URL is required. Use a PostgreSQL connection string.",
+  );
 }
 
 const DB_POOL_MAX = Number.parseInt(process.env.DB_POOL_MAX || "20", 10);
@@ -20,7 +22,8 @@ if (!Number.isInteger(DB_POOL_MAX) || DB_POOL_MAX < 1 || DB_POOL_MAX > 100) {
   throw new Error("DB_POOL_MAX must be an integer between 1 and 100.");
 }
 
-const QUESTION_REFRESH_ENABLED = process.env.QUESTION_REFRESH_ENABLED !== "false";
+const QUESTION_REFRESH_ENABLED =
+  process.env.QUESTION_REFRESH_ENABLED !== "false";
 
 module.exports = {
   NODE_ENV,

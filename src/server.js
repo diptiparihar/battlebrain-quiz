@@ -12,15 +12,21 @@ async function start() {
   const bank = await prepareQuestionBank(db, QUESTION_REFRESH_ENABLED);
   console.log(`[questions] imported ${bank.imported} new internet questions`);
 
-  const refreshTimer = setInterval(async () => {
-    if (!QUESTION_REFRESH_ENABLED) return;
-    try {
-      const result = await prepareQuestionBank(db, true);
-      if (result.imported) console.log(`[questions] background refresh imported ${result.imported} new questions`);
-    } catch (error) {
-      console.warn(`[questions] background refresh failed: ${error.message}`);
-    }
-  }, 6 * 60 * 60 * 1000);
+  const refreshTimer = setInterval(
+    async () => {
+      if (!QUESTION_REFRESH_ENABLED) return;
+      try {
+        const result = await prepareQuestionBank(db, true);
+        if (result.imported)
+          console.log(
+            `[questions] background refresh imported ${result.imported} new questions`,
+          );
+      } catch (error) {
+        console.warn(`[questions] background refresh failed: ${error.message}`);
+      }
+    },
+    6 * 60 * 60 * 1000,
+  );
   refreshTimer.unref?.();
 
   server = app.listen(PORT, () => {

@@ -125,10 +125,10 @@ On startup BattleBrain contacts Open Trivia DB and imports multiple-choice quest
 Current mapping:
 
 | BattleBrain zone | Provider category |
-|---|---|
-| WebDev | Computers |
-| Science | Science & Nature |
-| Logic | Mathematics |
+| ---------------- | ----------------- |
+| WebDev           | Computers         |
+| Science          | Science & Nature  |
+| Logic            | Mathematics       |
 
 The imported questions are stored permanently and deduplicated by provider/source identifier. This means your database can grow from the small bundled fallback set to **a large, persistent question bank** over repeated refreshes.
 

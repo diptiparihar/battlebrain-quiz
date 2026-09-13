@@ -7,7 +7,7 @@ const QUESTIONS = [
     "Home Tool Markup Language",
     "A",
     "WebDev",
-    "easy"
+    "easy",
   ],
   [
     "Which HTML tag is used to display an image?",
@@ -17,7 +17,7 @@ const QUESTIONS = [
     "<image>",
     "A",
     "WebDev",
-    "easy"
+    "easy",
   ],
   [
     "CSS stands for?",
@@ -27,7 +27,7 @@ const QUESTIONS = [
     "Computer Style Sheets",
     "B",
     "WebDev",
-    "easy"
+    "easy",
   ],
   [
     "Which language is primarily used to add interactivity to web pages?",
@@ -37,7 +37,7 @@ const QUESTIONS = [
     "SQL",
     "C",
     "WebDev",
-    "easy"
+    "easy",
   ],
   [
     "Which HTML element is used to define JavaScript?",
@@ -47,7 +47,7 @@ const QUESTIONS = [
     "<code>",
     "C",
     "WebDev",
-    "easy"
+    "easy",
   ],
   [
     "Which CSS property changes the text color?",
@@ -57,7 +57,7 @@ const QUESTIONS = [
     "foreground",
     "C",
     "WebDev",
-    "easy"
+    "easy",
   ],
   [
     "Which HTTP method is commonly used to retrieve data?",
@@ -67,7 +67,7 @@ const QUESTIONS = [
     "DELETE",
     "B",
     "WebDev",
-    "easy"
+    "easy",
   ],
   [
     "Which status code means 'Not Found'?",
@@ -77,7 +77,7 @@ const QUESTIONS = [
     "500",
     "C",
     "WebDev",
-    "medium"
+    "medium",
   ],
   [
     "Which technology is used to structure data in a relational database?",
@@ -87,7 +87,7 @@ const QUESTIONS = [
     "JSON",
     "B",
     "WebDev",
-    "medium"
+    "medium",
   ],
   [
     "What does API stand for?",
@@ -97,7 +97,7 @@ const QUESTIONS = [
     "Automated Programming Interface",
     "A",
     "WebDev",
-    "medium"
+    "medium",
   ],
   [
     "Which is the smallest planet in our Solar System?",
@@ -107,7 +107,7 @@ const QUESTIONS = [
     "Jupiter",
     "C",
     "Science",
-    "easy"
+    "easy",
   ],
   [
     "What is the chemical formula for water?",
@@ -117,7 +117,7 @@ const QUESTIONS = [
     "NaCl",
     "C",
     "Science",
-    "easy"
+    "easy",
   ],
   [
     "Which planet is known as the Red Planet?",
@@ -127,7 +127,7 @@ const QUESTIONS = [
     "Neptune",
     "B",
     "Science",
-    "easy"
+    "easy",
   ],
   [
     "Which gas do plants primarily absorb during photosynthesis?",
@@ -137,7 +137,7 @@ const QUESTIONS = [
     "Helium",
     "B",
     "Science",
-    "easy"
+    "easy",
   ],
   [
     "Who formulated the laws of motion?",
@@ -147,7 +147,7 @@ const QUESTIONS = [
     "Nikola Tesla",
     "B",
     "Science",
-    "medium"
+    "medium",
   ],
   [
     "What is the SI unit of force?",
@@ -157,7 +157,7 @@ const QUESTIONS = [
     "Pascal",
     "C",
     "Science",
-    "medium"
+    "medium",
   ],
   [
     "Which organ pumps blood through the human body?",
@@ -167,7 +167,7 @@ const QUESTIONS = [
     "Kidney",
     "C",
     "Science",
-    "easy"
+    "easy",
   ],
   [
     "What is the boiling point of water at sea level?",
@@ -177,7 +177,7 @@ const QUESTIONS = [
     "150°C",
     "C",
     "Science",
-    "easy"
+    "easy",
   ],
   [
     "Which particle has a negative electric charge?",
@@ -187,7 +187,7 @@ const QUESTIONS = [
     "Nucleus",
     "C",
     "Science",
-    "medium"
+    "medium",
   ],
   [
     "What is the approximate speed of light in vacuum?",
@@ -197,18 +197,9 @@ const QUESTIONS = [
     "3 × 10¹⁰ m/s",
     "A",
     "Science",
-    "hard"
+    "hard",
   ],
-  [
-    "2 + 2 × 2 = ?",
-    "8",
-    "6",
-    "4",
-    "10",
-    "B",
-    "Logic",
-    "easy"
-  ],
+  ["2 + 2 × 2 = ?", "8", "6", "4", "10", "B", "Logic", "easy"],
   [
     "What comes next: 2, 4, 8, 16, ?",
     "20",
@@ -217,18 +208,9 @@ const QUESTIONS = [
     "64",
     "C",
     "Logic",
-    "easy"
+    "easy",
   ],
-  [
-    "Which number is even?",
-    "3",
-    "7",
-    "11",
-    "12",
-    "D",
-    "Logic",
-    "easy"
-  ],
+  ["Which number is even?", "3", "7", "11", "12", "D", "Logic", "easy"],
   [
     "A doctor gives you 3 pills and tells you to take one every 30 minutes. How long until all pills are taken?",
     "1 hour",
@@ -237,7 +219,7 @@ const QUESTIONS = [
     "3 hours",
     "A",
     "Logic",
-    "medium"
+    "medium",
   ],
   [
     "A father has 4 daughters. Each daughter has one brother. How many children does the father have?",
@@ -247,7 +229,7 @@ const QUESTIONS = [
     "9",
     "B",
     "Logic",
-    "medium"
+    "medium",
   ],
   [
     "What comes next: 3, 6, 12, 24, ?",
@@ -257,7 +239,7 @@ const QUESTIONS = [
     "54",
     "C",
     "Logic",
-    "easy"
+    "easy",
   ],
   [
     "If all Bloops are Razzies and all Razzies are Lazzies, then all Bloops are:",
@@ -267,7 +249,7 @@ const QUESTIONS = [
     "None",
     "C",
     "Logic",
-    "medium"
+    "medium",
   ],
   [
     "If TODAY is coded as UPEBZ, how is NIGHT coded using the same pattern?",
@@ -277,7 +259,7 @@ const QUESTIONS = [
     "PKIJV",
     "A",
     "Logic",
-    "hard"
+    "hard",
   ],
   [
     "A clock shows 3:00. What is the angle between the hour and minute hands?",
@@ -287,7 +269,7 @@ const QUESTIONS = [
     "180°",
     "C",
     "Logic",
-    "medium"
+    "medium",
   ],
   [
     "If 5 machines make 5 products in 5 minutes, how long would 100 machines take to make 100 products?",
@@ -297,8 +279,8 @@ const QUESTIONS = [
     "500 minutes",
     "A",
     "Logic",
-    "hard"
-  ]
+    "hard",
+  ],
 ];
 
 module.exports = QUESTIONS;
